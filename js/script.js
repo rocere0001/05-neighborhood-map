@@ -147,8 +147,9 @@ function viewModel(){
             id: "m2"
         }
     ];
+
 };
-ko.applyBindings(viewModel());
+ko.applyBindings(viewModel);
 
 //viewModel.Query = ko.observable('');
 

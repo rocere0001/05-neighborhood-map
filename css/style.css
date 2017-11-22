@@ -51,8 +51,8 @@ html,body,#_map{
 }
 #_menu-content ul:hover, #_menu-content ul:focus {
     color: #f1f1f1;
-    font-size: 30px;
     background-color: #818181;
+    cursor: pointer;
 }
 #_menu .closebtn {
     padding: 3px;
