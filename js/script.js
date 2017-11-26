@@ -3,8 +3,11 @@
  * //TODO: Add Markers and Descriptions
  * Source: https://developers.google.com/maps/documentation/javascript/adding-a-google-map?hl=de
  * https://developers.google.com/maps/documentation/javascript/examples/control-disableUI?hl=de
+ * For selecting Markers from List:
+ * https://stackoverflow.com/questions/18333679/google-maps-open-info-window-after-click-on-a-link
  */
 var map;
+
 function createMap(){
     var uluru = {lat: -33.8900845, lng: 151.2743677};
     map = new google.maps.Map(document.getElementById('_map'), {
