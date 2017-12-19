@@ -41,15 +41,15 @@ function createMap(){
     google.maps.event.addListener(map, 'click', function() {
         infowindow.close();
     });
-    var vm = new viewModel();
-    ko.applyBindings(vm);
+
+    ko.applyBindings(new viewModel());
 }
 
 //TODO
 /**
  * Create markers as knockout objects
  */
-var marker(mapMarkerData){
+function marker(mapMarkerData){
     this.name = name;
     this.lat = lat;
     this.lon = lon;
@@ -66,7 +66,8 @@ var marker(mapMarkerData){
 
 function viewModel(){
     var self = this;
-    self._markers = ko.observableArray([]);
+    markers = ko.observableArray([]);
+
     for(var i =0, markerLen = mapMarkers.length; i < markerLen; i++){
         _markers.push(mapMarkers[i]);
     }
