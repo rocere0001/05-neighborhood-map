@@ -1,3 +1,4 @@
+var map,gMapsMarker,curMarker;
 /**
  * Create Map
  * //TODO: Add Markers and Descriptions
@@ -6,7 +7,6 @@
  * For selecting Markers from List:
  * https://stackoverflow.com/questions/18333679/google-maps-open-info-window-after-click-on-a-link
  */
-var map;
 function createMap(){
     var uluru = {lat: -33.8900845, lng: 151.2743677};
     map = new google.maps.Map(document.getElementById('_map'), {
@@ -14,49 +14,58 @@ function createMap(){
         center: uluru,
         disableDefaultUI: true
     });
+
     /**
      * Adds the markers to the map
      * Source: https://stackoverflow.com/questions/3059044/google-maps-js-api-v3-simple-multiple-marker-example
      * @type {google.maps.InfoWindow}
      */
     var infowindow = new google.maps.InfoWindow();
-    var gMapsMarker, i;
 
-    for (i = 0; i < mapMarkers.length; i++) {
-        gMapsMarker = new google.maps.Marker({
-            position: new google.maps.LatLng(mapMarkers[i].lat, mapMarkers[i].lon),
-            map: map
-        });
-
-        google.maps.event.addListener(marker, 'click', (function(gMapsMarker, i) {
-            return function() {
-                infowindow.setContent('<p style="font-weight: 500; ">'+mapMarkers[i].name+'</p>');
-                infowindow.open(map, gMapsMarker);
-                //TODO: add extra API
-            }
-        })(gMapsMarker, i));
-    }
-
-    // Event that closes the Info Window with a click on the map
-    google.maps.event.addListener(map, 'click', function() {
-        infowindow.close();
-    });
 
     ko.applyBindings(new viewModel());
-}
+};
 
 //TODO
 /**
  * Create markers as knockout objects
+ * Contains the information for each marker/place
+ * Accessing map from outside the map context: https://stackoverflow.com/questions/44322954/how-to-call-google-map-addmarker-function-outside-initialize-function
  */
-function marker(mapMarkerData){
-    this.name = name;
-    this.lat = lat;
-    this.lon = lon;
-    this.street = street;
-    this.city = city;
-    this.url = url;
-    this.id = id;
+function Marker(mapMarkerData){
+    var _this = this;
+
+    this.name = mapMarkerData.name;
+    this.lat = mapMarkerData.lat;
+    this.lon = mapMarkerData.lon;
+    this.street = mapMarkerData.street;
+    this.city = mapMarkerData.city;
+    this.url = mapMarkerData.url;
+    this.id = mapMarkerData.id;
+
+    this.mapsMarker = (function(){
+        _this.marker = new google.maps.Marker({
+            position: new google.maps.LatLng(_this.lat, _this.lon),
+            map: map
+        });
+
+        _this.marker.addListener('click',function(){
+            console.log("click auf marker");
+            map.center(this.lat,this.lon);
+        });
+
+        /*on marker click functionality*/
+       /* _this.marker.addListener('click', function(){
+            map.center(_this.lat,_this.lon);
+            infowindow.setContent('<p style="font-weight: 500; ">'+mapMarkers[i].name+'</p>');
+            infowindow.open(map, gMapsMarker);
+            //TODO: add extra API
+        });*/
+    })();
+    // Event that closes the Info Window with a click on the map
+    google.maps.event.addListener(map, 'click', function() {
+        infowindow.close();
+    });
 };
 
 /**
@@ -65,29 +74,13 @@ function marker(mapMarkerData){
  */
 
 function viewModel(){
-    var self = this;
-    markers = ko.observableArray([]);
+    var _this = this;
 
-    for(var i =0, markerLen = mapMarkers.length; i < markerLen; i++){
-        _markers.push(mapMarkers[i]);
-    }
-
-    /*ko.applyBindings(viewModel);
-    viewModel.Query = ko.observable('');
-    markers.searchResults = ko.computed(function() {
-        var q = viewModel.Query();
-        return viewModel.markers.filter(function(i) {
-            return i.name.toLowerCase().indexOf(q) >= 0;
-        });
-    });*/
-
-    self._filter = ko.dependentObservable(function() {
-        var q = self.filterList.toLowerCase();
-        return ko.utils.arrayFilter(self.markers,function()
-        {
-            return _markers.name.toLowerCase().indexOf(q) >= 0
-        });
-    },self);
+    /*Create and fill observable array of markers*/
+    gMapsMarker = ko.observableArray([]);
+    mapMarkers.forEach(function(data){
+        gMapsMarker.push( new Marker(data) );
+    });
 };
 
 function setMarkers(){};
@@ -128,11 +121,12 @@ var mapMarkers = [
         id: "m1"
     },{
         name: "Bondi Trattoria",
-        lat: -33.8914755,
-        lon: 151.2766845,
+        lat: -33.893754,
+        lon: 151.272857,
         street: "34 Campbell Parade",
         city: "Bondi Beach NSW 2026",
         url:"bonditrattoria.com.au",
         id: "m2"
     }
 ];
+
