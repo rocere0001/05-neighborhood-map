@@ -1,4 +1,4 @@
-var map,gMapsMarker,curMarker;
+var map,gMapsMarker,infowindow,curMarker;
 /**
  * Create Map
  * //TODO: Add Markers and Descriptions
@@ -20,7 +20,9 @@ function createMap(){
      * Source: https://stackoverflow.com/questions/3059044/google-maps-js-api-v3-simple-multiple-marker-example
      * @type {google.maps.InfoWindow}
      */
-    var infowindow = new google.maps.InfoWindow();
+    infowindow = new google.maps.InfoWindow({
+        content:''
+    });
 
 
     ko.applyBindings(new viewModel());
@@ -51,7 +53,9 @@ function Marker(mapMarkerData){
 
         _this.marker.addListener('click',function(){
             console.log("click auf marker");
-            map.center(this.lat,this.lon);
+            map.setCenter({lat:_this.lat,lng:_this.lon});
+            infowindow.setContent('<p style="font-weight: 500; ">'+_this.name+'</p>');
+            infowindow.open(map, _this.marker);
         });
 
         /*on marker click functionality*/
