@@ -81,3 +81,21 @@ a {
     cursor:pointer;
     border: #f0ffff;
 }
+.marker-photo {
+    float: left;
+    margin: 2px;
+    display: block;
+    width: 40px;
+    height: 40px;
+    border: 1px solid black;
+}
+.marker-photo:first-of-type{
+    margin-left: 0px;
+}
+.marker-title{
+    text-decoration: underline;
+    text-transform: capitalize;
+}
+.marker-url{
+    display: inline-block;
+}

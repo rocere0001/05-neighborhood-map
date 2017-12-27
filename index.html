@@ -4,36 +4,21 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="css/style.css">
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBcEUXJvd_XIrzjlsneL_vtKNrAQ9cLpUo&callback=createMap">
-    </script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
-    <script
-            src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-            integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
-            crossorigin="anonymous"></script>
-    <script type="text/javascript" src="js/script.js"></script>
+
 </head>
 <body>
 <div id="_menu">
-    <span id = "openButton" onclick="openNav()">&#9776; menu</span>
+    <span id = "openButton" onclick="openNav()">&#9776;</span>
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <!--<input id="_filter" placeholder="Filter Places" type="text" name=   "filterList" data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off">-->
-    <!--<input id="_filter" placeholder="Filter..." type="input" data-bind="textInput: query, valueUpdate: 'keydown'" autocomplete="off">-->
     <ul id="_menu-content" data-bind="foreach: gMapsMarker">
-        <li><a data-bind="text: name" href="#"></a></li>
+        <li><a data-bind="text: name, click: clickMarker" href="#"></a></li>
     </ul>
 </div>
 <div id="_map"></div>
-
-<!--<div id="_menu">
-    <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span>
-    <ul>
-        <li><a href="#">Zurich</a></li>
-        <li><a href="#">Geneva</a></li>
-        <li><a href="#">Winterthur</a></li>
-        <li><a href="#">Lausanne</a></li>
-        <li><a href="#">Lucerne</a></li>
-    </ul>
-</div>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+<script type="text/javascript" src="js/script.js"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBcEUXJvd_XIrzjlsneL_vtKNrAQ9cLpUo&callback=createMap">
+</script>
 </body>
 </html>
