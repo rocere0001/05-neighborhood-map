@@ -125,13 +125,16 @@ function viewModel(){
     mapMarkers.forEach(function(data){
         gMapsMarker.push( new Marker(data) );
     });
+    _this.filerMarkers = ko.computed(function(){
 
-    _this.filterMarkers = ko.computed(function () {
-        var matchedTrails = [];
+    })
+
+    /*_this.filterMarkers = ko.computed(function () {
+        var filteredMarkers = [];
         /*Build search query*/
-        var searchQuery = new RegExp(self.searchFilter(), 'i');
+        /*var searchQuery = new RegExp(self.searchFilter(), 'i');
         /*Loop through all the trails and if there is a match with search query store it in matchedTrails*/
-        for (var i = 0; i < self.trails().length; i++) {
+        /*for (var i = 0; i < self.trails().length; i++) {
             if(self.trails()[i].title.search(searchQuery) !== -1) {
                 matchedTrails.push(self.trails()[i]);
                 self.trails()[i].trailMarker.setVisible(true);
@@ -142,8 +145,7 @@ function viewModel(){
             }
         }
         return matchedTrails;
-
-    });
+    });*/
 };
 
 function openNav() {
