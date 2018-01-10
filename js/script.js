@@ -87,7 +87,7 @@ function Marker(mapMarkerData){
                 .replace('CLIENT_SECRET', CLIENT_SECRET)
                 .replace('LOC_ID', _this.id), function (result, status) {
                 if (status !== 'success') return alert('Request to Foursquare failed');
-                var infoTitle = '<h1 class="marker-title" style="font-weight: 500; "><a target="_blank" href="'+result.response.venue.canonicalUrl+'">' + _this.name + '</a></h1>';
+                var infoTitle = '<h2 class="marker-title" style="font-weight: 500; "><a target="_blank" href="'+result.response.venue.canonicalUrl+'">' + _this.name + '</a></h2>';
                 var rating = '<div class="marker-rating" style="color: #'+result.response.venue.ratingColor+ '">Rating: '+result.response.venue.rating+'</div>';
                 var likes = '<div class="marker-likes">Likes: '+result.response.venue.likes.count+'</div>';
                 var pictures = result.response.venue.photos.groups[0].items;
@@ -127,17 +127,17 @@ function viewModel(){
     });
 
     _this.filterMarkers = ko.computed(function () {
-        var matchedTrails = [];
+        var matchingMarkers = [];
         /*Build search query*/
-        var searchQuery = new RegExp(self.searchFilter(), 'i');
-        /*Loop through all the trails and if there is a match with search query store it in matchedTrails*/
-        for (var i = 0; i < self.trails().length; i++) {
-            if(self.trails()[i].title.search(searchQuery) !== -1) {
-                matchedTrails.push(self.trails()[i]);
-                self.trails()[i].trailMarker.setVisible(true);
-                self.trails()[i].panToLoc();
+        var searchQuery = new RegExp(_this.searchFilter(), 'i');
+
+        for (var i = 0; i < _this.trails().length; i++) {
+            if(_this.trails()[i].title.search(searchQuery) !== -1) {
+                curMarker.push(_this.trails()[i]);
+                _this.trails()[i].trailMarker.setVisible(true);
+                _this.trails()[i].panToLoc();
             } else {
-                self.trails()[i].trailMarker.setVisible(false);
+                _this.trails()[i].trailMarker.setVisible(false);
                 infoWindow.close();
             }
         }
