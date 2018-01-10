@@ -57,17 +57,25 @@ function Marker(mapMarkerData){
     _this.lat = mapMarkerData.lat;
     _this.lon = mapMarkerData.lon;
     _this.id = mapMarkerData.id;
-    _this.content = null;
+    _this.visible = true;
 
     this.mapsMarker = (function() {
         _this.marker = new google.maps.Marker({
             position: new google.maps.LatLng(_this.lat, _this.lon),
-            map: map
+            map: map,
+            animation: google.maps.Animation.DROP
         });
 
         _this.marker.addListener('click', function () {
-            _this.clickMarker();
-
+            console.log("click auf marker");
+            map.panTo({lat: _this.lat, lng: _this.lon});
+            if (_this.marker.getAnimation() !== null) {
+                _this.marker.setAnimation(null);
+            } else {
+                _this.marker.setAnimation(google.maps.Animation.BOUNCE);
+                setTimeout("_this.marker.setAnimation(null)", 1520);
+            }
+            _this.windowContent();
         });
         /**
          * Click - Marker Function which is called when markers or menu is
@@ -75,10 +83,7 @@ function Marker(mapMarkerData){
          * https://stackoverflow.com/questions/21632094/google-maps-api-v3-opening-the-link-on-a-marker-in-a-new-window
          */
         _this.clickMarker = function () {
-            console.log("click auf marker");
-            map.panTo({lat: _this.lat, lng: _this.lon});
-            //_this.setAnimation(google.maps.Animation.BOUNCE);
-            _this.windowContent();
+
         };
         _this.windowContent = function () {
 
@@ -125,9 +130,25 @@ function viewModel(){
     mapMarkers.forEach(function(data){
         gMapsMarker.push( new Marker(data) );
     });
-    _this.filerMarkers = ko.computed(function(){
+    /**
+     * https://stackoverflow.com/questions/29551997/knockout-search-filter
+     */
+    this.filterInput = ko.observable('');
+    this.filterMarkers = ko.computed(function(){
+        return gMapsMarker().filter(function(_loc){
+            var showMarker = true;
+            if(_this.filterInput()){
+                var filterResult = _loc.name.toLowerCase().indexOf(_this.filterInput().toLowerCase());
+                if(filterResult === -1){
+                    showMarker = false;
+                }else {
+                    showMarker = true;
+                }
+            }
 
-    })
+            return showMarker;
+        })
+        });
 
     /*_this.filterMarkers = ko.computed(function () {
         var filteredMarkers = [];
@@ -166,18 +187,21 @@ var mapMarkers = [
         name: "Bondi Beach",
         lat: -33.8914755,
         lon: 151.2766845,
-        id: "4b058763f964a520848f22e3"
+        id: "4b058763f964a520848f22e3",
+        visible: true
     },
     {
         name: "Chapter One Coffee & Wine Room",
         lat: -33.8947857,
         lon: 151.2720886,
-        id: "4e73e716b61c22c6377db894"
+        id: "4e73e716b61c22c6377db894",
+        visible: true
     },{
         name: "Bondi Trattoria",
         lat: -33.893754,
         lon: 151.272857,
-        id: "4b066368f964a52068eb22e3"
+        id: "4b066368f964a52068eb22e3",
+        visible: true
     }
 ];
 
