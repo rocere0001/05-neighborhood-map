@@ -53,6 +53,9 @@ a {
     transition: 0.3s;
     z-index: 4;
 }
+#_menu-content li > a{
+    display: block;
+}
 #_menu-content li:hover, #_menu-content li:focus {
     color: #f1f1f1;
     background-color: #818181;

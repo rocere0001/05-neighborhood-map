@@ -1,3 +1,4 @@
+//TODO: Klick auf Menü -> Klickregister von Text zu gesamte Markierung
 var map,gMapsMarker,infowindow,curMarker;
 /**
  * Creating Request for Foursquare:
@@ -67,23 +68,25 @@ function Marker(mapMarkerData){
         });
 
         _this.marker.addListener('click', function () {
+            _this.clickMarker();
+        });
+
+        /**
+         * Click - Marker Function which is called when markers or menu is
+         * Source(s):
+         * https://stackoverflow.com/questions/21632094/google-maps-api-v3-opening-the-link-on-a-marker-in-a-new-window
+         * https://stackoverflow.com/questions/7339200/bounce-a-pin-in-google-maps-once
+         */
+        _this.clickMarker = function () {
             console.log("click auf marker");
             map.panTo({lat: _this.lat, lng: _this.lon});
             if (_this.marker.getAnimation() !== null) {
                 _this.marker.setAnimation(null);
             } else {
                 _this.marker.setAnimation(google.maps.Animation.BOUNCE);
-                setTimeout("_this.marker.setAnimation(null)", 1520);
+                setTimeout(function(){ _this.marker.setAnimation(null); }, 760);
             }
             _this.windowContent();
-        });
-        /**
-         * Click - Marker Function which is called when markers or menu is
-         * Source(s):
-         * https://stackoverflow.com/questions/21632094/google-maps-api-v3-opening-the-link-on-a-marker-in-a-new-window
-         */
-        _this.clickMarker = function () {
-
         };
         _this.windowContent = function () {
 
@@ -113,6 +116,7 @@ function Marker(mapMarkerData){
     // Event that closes the Info Window with a click on the map
     google.maps.event.addListener(map, 'click', function() {
         infowindow.close();
+        _this.marker.setAnimation(null);
     });
 
 };
@@ -133,8 +137,14 @@ function viewModel(){
     /**
      * https://stackoverflow.com/questions/29551997/knockout-search-filter
      */
-    this.filterInput = ko.observable('');
-    this.filterMarkers = ko.computed(function(){
+    _this.filterInput = ko.observable('');
+    _this.filterMarkers = ko.computed(function(){
+        var filter = _this.filterInput().toLowerCase();
+        if(!filter){
+            gMapsMarker.foreach(function(_marker)){
+                _marker.marker.setVisible(true);
+            }
+        }
         return gMapsMarker().filter(function(_loc){
             var showMarker = true;
             if(_this.filterInput()){
