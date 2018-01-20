@@ -136,47 +136,25 @@ function viewModel(){
     });
     /**
      * https://stackoverflow.com/questions/29551997/knockout-search-filter
+     * https://stackoverflow.com/questions/45422066/set-marker-visible-with-knockout-js-ko-utils-arrayfilter
      */
     _this.filterInput = ko.observable('');
     _this.filterMarkers = ko.computed(function(){
-        var filter = _this.filterInput().toLowerCase();
-        if(!filter){
-            gMapsMarker.foreach(function(_marker)){
-                _marker.marker.setVisible(true);
-            }
-        }
         return gMapsMarker().filter(function(_loc){
             var showMarker = true;
             if(_this.filterInput()){
                 var filterResult = _loc.name.toLowerCase().indexOf(_this.filterInput().toLowerCase());
                 if(filterResult === -1){
                     showMarker = false;
+
                 }else {
                     showMarker = true;
                 }
             }
-
+            _loc.marker.setVisible(showMarker);
             return showMarker;
         })
         });
-
-    /*_this.filterMarkers = ko.computed(function () {
-        var filteredMarkers = [];
-        /*Build search query*/
-        /*var searchQuery = new RegExp(self.searchFilter(), 'i');
-        /*Loop through all the trails and if there is a match with search query store it in matchedTrails*/
-        /*for (var i = 0; i < self.trails().length; i++) {
-            if(self.trails()[i].title.search(searchQuery) !== -1) {
-                matchedTrails.push(self.trails()[i]);
-                self.trails()[i].trailMarker.setVisible(true);
-                self.trails()[i].panToLoc();
-            } else {
-                self.trails()[i].trailMarker.setVisible(false);
-                infoWindow.close();
-            }
-        }
-        return matchedTrails;
-    });*/
 };
 
 function openNav() {
