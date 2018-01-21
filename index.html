@@ -7,20 +7,21 @@
 
 </head>
 <body>
-<div id="_menu">
-    <span id = "openButton" onclick="openNav()">&#9776;</span>
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+<span id = "openButton" onclick="openNav()">&#9776;</span>
+<nav id="_menu">
+
     <!-- http://knockoutjs.com/documentation/binding-syntax.html -->
-    <input data-bind="value: filterInput, valueUpdate: 'afterkeydown'">
+    <input placeholder="Filter..." id="filter_field" data-bind="value: filterInput, valueUpdate: 'afterkeydown'">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     <ul id="_menu-content" data-bind="foreach: filterMarkers">
         <li><a data-bind="text: name, click: clickMarker" href="#"></a></li>
     </ul>
-</div>
+</nav>
 <div id="_map"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
 <script type="text/javascript" src="js/script.js"></script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBcEUXJvd_XIrzjlsneL_vtKNrAQ9cLpUo&callback=createMap">
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBcEUXJvd_XIrzjlsneL_vtKNrAQ9cLpUo&callback=createMap" onerror="googleError()">
 </script>
 </body>
 </html>

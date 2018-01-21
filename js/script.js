@@ -29,7 +29,79 @@ function createMap(){
     map = new google.maps.Map(document.getElementById('_map'), {
         zoom: 16,
         center: uluru,
-        disableDefaultUI: true
+        disableDefaultUI: true,
+        //https://snazzymaps.com/
+        styles:[
+            {
+                "featureType": "landscape.natural",
+                "elementType": "geometry.fill",
+                "stylers": [
+                    {
+                        "visibility": "on"
+                    },
+                    {
+                        "color": "#e0efef"
+                    }
+                ]
+            },
+            {
+                "featureType": "poi",
+                "elementType": "geometry.fill",
+                "stylers": [
+                    {
+                        "visibility": "on"
+                    },
+                    {
+                        "hue": "#1900ff"
+                    },
+                    {
+                        "color": "#c0e8e8"
+                    }
+                ]
+            },
+            {
+                "featureType": "road",
+                "elementType": "geometry",
+                "stylers": [
+                    {
+                        "lightness": 100
+                    },
+                    {
+                        "visibility": "simplified"
+                    }
+                ]
+            },
+            {
+                "featureType": "road",
+                "elementType": "labels",
+                "stylers": [
+                    {
+                        "visibility": "off"
+                    }
+                ]
+            },
+            {
+                "featureType": "transit.line",
+                "elementType": "geometry",
+                "stylers": [
+                    {
+                        "visibility": "on"
+                    },
+                    {
+                        "lightness": 700
+                    }
+                ]
+            },
+            {
+                "featureType": "water",
+                "elementType": "all",
+                "stylers": [
+                    {
+                        "color": "#7dcdcd"
+                    }
+                ]
+            }
+        ]
     });
 
     /**
@@ -40,8 +112,6 @@ function createMap(){
     infowindow = new google.maps.InfoWindow({
         content:''
     });
-
-
     ko.applyBindings(new viewModel());
 };
 
@@ -58,7 +128,7 @@ function Marker(mapMarkerData){
     _this.lat = mapMarkerData.lat;
     _this.lon = mapMarkerData.lon;
     _this.id = mapMarkerData.id;
-    _this.visible = true;
+    _this.visible = mapMarkerData.visible;
 
     this.mapsMarker = (function() {
         _this.marker = new google.maps.Marker({
@@ -95,9 +165,9 @@ function Marker(mapMarkerData){
                 .replace('CLIENT_SECRET', CLIENT_SECRET)
                 .replace('LOC_ID', _this.id), function (result, status) {
                 if (status !== 'success') return alert('Request to Foursquare failed');
-                var infoTitle = '<h1 class="marker-title" style="font-weight: 500; "><a target="_blank" href="'+result.response.venue.canonicalUrl+'">' + _this.name + '</a></h1>';
-                var rating = '<div class="marker-rating" style="color: #'+result.response.venue.ratingColor+ '">Rating: '+result.response.venue.rating+'</div>';
-                var likes = '<div class="marker-likes">Likes: '+result.response.venue.likes.count+'</div>';
+                var infoTitle = '<h3 class="marker-title" style="font-weight: 500; "><a target="_blank" href="'+result.response.venue.canonicalUrl+'">' + _this.name + '</a></h3>';
+                var rating = '<div class="marker-rating" style="color: #'+result.response.venue.ratingColor+ '">Foursquare - Rating: '+result.response.venue.rating+'</div>';
+                var likes = '<div class="marker-likes">Foursquare - Likes: '+result.response.venue.likes.count+'</div>';
                 var pictures = result.response.venue.photos.groups[0].items;
                 var markerPictures = null;
 
@@ -158,8 +228,7 @@ function viewModel(){
 };
 
 function openNav() {
-    document.getElementById("_menu").style.width = "40%";
-
+    document.getElementById("_menu").style.width = "30%";
 }
 
 function closeNav() {
@@ -189,6 +258,18 @@ var mapMarkers = [
         lat: -33.893754,
         lon: 151.272857,
         id: "4b066368f964a52068eb22e3",
+        visible: true
+    },{
+        name: "Bondi to Bronte Coastal Walk",
+        lat: -33.894965,
+        lon: 151.274425,
+        id: "4b058762f964a5205c8f22e3",
+        visible: true
+    },{
+        name: "Lets Go Surfing",
+        lat: -33.889347,
+        lon: 151.282799,
+        id: "4b058772f964a520a19322e3",
         visible: true
     }
 ];
