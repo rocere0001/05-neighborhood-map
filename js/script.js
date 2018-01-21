@@ -23,6 +23,17 @@ var AMOUNT_PHOTOS = 3;
  */
 function createMap(){
     var uluru = {lat: -33.8900845, lng: 151.2743677};
+    setTimeout(function () {
+        try{
+
+            if (!google || !google.maps) {
+                alert("Failed to load Google Maps API");
+            }
+        }
+        catch (e) {
+            alert("Error during load of Google Maps API");
+        }
+    }, 5000);
     map = new google.maps.Map(document.getElementById('_map'), {
         zoom: 16,
         center: uluru,
@@ -165,9 +176,15 @@ function Marker(mapMarkerData){
                         markerPictures = '<div class="marker-photo"><img src="' + pictures[i].prefix + '40x40' + pictures[i].suffix + '"></div>';
                     }
                 }
+
                 infowindow.setContent(infoTitle+rating+likes+markerPictures);
+            }).done(function(){
+                infowindow.open(map, _this.marker);
+            }).fail(function () {
+                infowindow.setContent("Foursquare Request failed");
+                infowindow.open(map, _this.marker);
             });
-            infowindow.open(map, _this.marker);
+
         };
     }());
     google.maps.event.addListener(map, 'click', function() {
@@ -209,8 +226,20 @@ function viewModel(){
         });
 }
 
+/*Menu Functions
+* TODO: Use Knockout for Menu function
+*
+*/
+$(window).resize(function () {
+    openNav();
+});
 function openNav() {
-    document.getElementById("_menu").style.width = "30%";
+    var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    if(w < 1400){
+        document.getElementById("_menu").style.width = "30%";
+    }else{
+        document.getElementById("_menu").style.width = "430px";
+    }
 }
 
 function closeNav() {
