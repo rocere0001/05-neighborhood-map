@@ -6,8 +6,8 @@ html,body,#_map{
     margin: 0 auto;
 }
 a {
-    color: inherit; /* blue colors for links too */
-    text-decoration: inherit; /* no underline */
+    color: inherit;
+    text-decoration: inherit;
 }
 
 #filter_field{
@@ -40,15 +40,11 @@ a {
 #_menu-content li {
     margin-bottom: 2px;
     margin-top: 2px;
-    /*padding: 3px;*/
     color: #818181;
     display: block;
-    /*border-bottom: 1px solid;*/
-    /*transition: 0.3s;*/
     z-index: 4;
 }
 #_menu-content li > a{
-    /*padding: 8px 8px 8px 32px;*/
     position: static;
     text-decoration: none;
     font-size: 24px;

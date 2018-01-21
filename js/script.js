@@ -1,8 +1,6 @@
-//TODO: Klick auf Menü -> Klickregister von Text zu gesamte Markierung
 var map,gMapsMarker,infowindow,curMarker;
 /**
- * Creating Request for Foursquare:
- * https://gist.github.com/wboykinm/8787137
+ *
  * @type {string}
  */
 var CLIENT_ID = 'PXBNYXLJJVY0QXCAS3CSIJRQH1CRVXMMTEK33CIZGFFOLE5Z';
@@ -15,8 +13,6 @@ var API_ENDPOINT = 'https://api.foursquare.com/v2/venues/' +
     '&v=20171226';
 var AMOUNT_PHOTOS = 3;
 /**
- * Create Map
- * //TODO: Add Markers and Descriptions
  * Source: https://developers.google.com/maps/documentation/javascript/adding-a-google-map?hl=de
  * https://developers.google.com/maps/documentation/javascript/examples/control-disableUI?hl=de
  * For selecting Markers from List:
