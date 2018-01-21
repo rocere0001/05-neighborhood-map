@@ -16,6 +16,7 @@ Or:
 >Design:<br/>
 >https://codepen.io/secondfret/pen/mIBqf<br/>
 https://stackoverflow.com/questions/26015955/dynamically-creating-menu-structure-using-knockout<br/>
+https://snazzymaps.com/
 
 >Knockout:<br/>http://knockoutjs.com/documentation/binding-syntax.html<br/>
 https://codepen.io/Anupchat/pen/izJEt

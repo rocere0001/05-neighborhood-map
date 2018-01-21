@@ -1,4 +1,4 @@
-var map,gMapsMarker,infowindow,curMarker;
+var map,gMapsMarker,infowindow;
 /**
  *
  * @type {string}
@@ -12,6 +12,7 @@ var API_ENDPOINT = 'https://api.foursquare.com/v2/venues/' +
     '&client_secret=CLIENT_SECRET' +
     '&v=20171226';
 var AMOUNT_PHOTOS = 3;
+
 /**
  * Source: https://developers.google.com/maps/documentation/javascript/adding-a-google-map?hl=de
  * https://developers.google.com/maps/documentation/javascript/examples/control-disableUI?hl=de
@@ -99,23 +100,21 @@ function createMap(){
             }
         ]
     });
-
-    /**
-     * Adds the markers to the map
-     * Source: https://stackoverflow.com/questions/3059044/google-maps-js-api-v3-simple-multiple-marker-example
-     * @type {google.maps.InfoWindow}
-     */
     infowindow = new google.maps.InfoWindow({
         content:''
     });
     ko.applyBindings(new viewModel());
-};
+}
 
 //TODO
 /**
  * Create markers as knockout objects
  * Contains the information for each marker/place
  * Accessing map from outside the map context: https://stackoverflow.com/questions/44322954/how-to-call-google-map-addmarker-function-outside-initialize-function
+ * * Click - Marker Function which is called when markers or menu is
+ * Source(s):
+ * https://stackoverflow.com/questions/21632094/google-maps-api-v3-opening-the-link-on-a-marker-in-a-new-window
+ * https://stackoverflow.com/questions/7339200/bounce-a-pin-in-google-maps-once
  */
 function Marker(mapMarkerData){
     var _this = this;
@@ -136,13 +135,6 @@ function Marker(mapMarkerData){
         _this.marker.addListener('click', function () {
             _this.clickMarker();
         });
-
-        /**
-         * Click - Marker Function which is called when markers or menu is
-         * Source(s):
-         * https://stackoverflow.com/questions/21632094/google-maps-api-v3-opening-the-link-on-a-marker-in-a-new-window
-         * https://stackoverflow.com/questions/7339200/bounce-a-pin-in-google-maps-once
-         */
         _this.clickMarker = function () {
             console.log("click auf marker");
             map.panTo({lat: _this.lat, lng: _this.lon});
@@ -168,7 +160,7 @@ function Marker(mapMarkerData){
                 var markerPictures = null;
 
                 for (var i = 0; i<AMOUNT_PHOTOS;i++){
-                    if(markerPictures != null) {
+                    if(markerPictures !== null) {
                         markerPictures += '<div class="marker-photo"><img src="' + pictures[i].prefix + '40x40' + pictures[i].suffix + '"></div>';
                     }else{
                         markerPictures = '<div class="marker-photo"><img src="' + pictures[i].prefix + '40x40' + pictures[i].suffix + '"></div>';
@@ -179,31 +171,26 @@ function Marker(mapMarkerData){
             infowindow.open(map, _this.marker);
         };
     }());
-    // Event that closes the Info Window with a click on the map
     google.maps.event.addListener(map, 'click', function() {
         infowindow.close();
         _this.marker.setAnimation(null);
     });
 
-};
+}
 
 /**
  * Source: https://codepen.io/Anupchat/pen/izJEt
  * https://stackoverflow.com/questions/26015955/dynamically-creating-menu-structure-using-knockout
+ * https://stackoverflow.com/questions/29551997/knockout-search-filter
+ * https://stackoverflow.com/questions/45422066/set-marker-visible-with-knockout-js-ko-utils-arrayfilter
  */
 
 function viewModel(){
     var _this = this;
-
-    /*Create and fill observable array of markers*/
     gMapsMarker = ko.observableArray([]);
     mapMarkers.forEach(function(data){
         gMapsMarker.push( new Marker(data) );
     });
-    /**
-     * https://stackoverflow.com/questions/29551997/knockout-search-filter
-     * https://stackoverflow.com/questions/45422066/set-marker-visible-with-knockout-js-ko-utils-arrayfilter
-     */
     _this.filterInput = ko.observable('');
     _this.filterMarkers = ko.computed(function(){
         return gMapsMarker().filter(function(_loc){
@@ -219,9 +206,9 @@ function viewModel(){
             }
             _loc.marker.setVisible(showMarker);
             return showMarker;
-        })
         });
-};
+        });
+}
 
 function openNav() {
     document.getElementById("_menu").style.width = "30%";
@@ -233,8 +220,8 @@ function closeNav() {
 
 /**
  * hardCoded mapMarkers for POIs
- * @type {[null,null]}
  */
+
 var mapMarkers = [
     {
         name: "Bondi Beach",
@@ -269,4 +256,3 @@ var mapMarkers = [
         visible: true
     }
 ];
-
