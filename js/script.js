@@ -116,7 +116,9 @@ function createMap(){
     });
     ko.applyBindings(new viewModel());
 }
-
+function gMapsError(){
+    alert("Google Maps encountered an Error while loading!");
+}
 //TODO
 /**
  * Create markers as knockout objects
@@ -161,8 +163,8 @@ function Marker(mapMarkerData){
             $.getJSON(API_ENDPOINT
                 .replace('CLIENT_ID', CLIENT_ID)
                 .replace('CLIENT_SECRET', CLIENT_SECRET)
-                .replace('LOC_ID', _this.id), function (result, status) {
-                if (status !== 'success') return alert('Request to Foursquare failed');
+                .replace('LOC_ID', _this.id))
+                .done(function (result) {
                 var infoTitle = '<h3 class="marker-title" style="font-weight: 500; "><a target="_blank" href="'+result.response.venue.canonicalUrl+'">' + _this.name + '</a></h3>';
                 var rating = '<div class="marker-rating" style="color: #'+result.response.venue.ratingColor+ '">Foursquare - Rating: '+result.response.venue.rating+'</div>';
                 var likes = '<div class="marker-likes">Foursquare - Likes: '+result.response.venue.likes.count+'</div>';
@@ -176,15 +178,12 @@ function Marker(mapMarkerData){
                         markerPictures = '<div class="marker-photo"><img src="' + pictures[i].prefix + '40x40' + pictures[i].suffix + '"></div>';
                     }
                 }
-
                 infowindow.setContent(infoTitle+rating+likes+markerPictures);
-            }).done(function(){
                 infowindow.open(map, _this.marker);
             }).fail(function () {
                 infowindow.setContent("Foursquare Request failed");
                 infowindow.open(map, _this.marker);
             });
-
         };
     }());
     google.maps.event.addListener(map, 'click', function() {
