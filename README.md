@@ -1,9 +1,9 @@
 #Udacity Neighborhood Map Project
->Map of Things to do in Bondi
+>Map of Things I'd do on return to Bondi
 ##Description
 This is the fifth Udacity Front End Nanodegree Project. It's purpose is to use the GoogleMaps API in addition with a second API.
 
-In this example I'm creating a Neighborhood Map of Bondi Beach, which highlights things to do in the area. In addition to the Google Maps API I'm using the Foursquare API
+In this example I'm creating a Neighborhood Map of Bondi Beach, which highlights things to do in the area. In addition to the Google Maps API I'm using the Foursquare API to get Ratings, Likes and the first three Photos of the Locations. The title of the Info Window is a clickable link.
 ##How to Use
 Either:
 https://rocere0001.github.io/05-neighborhood-map/index.html
