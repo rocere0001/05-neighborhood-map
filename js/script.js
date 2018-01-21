@@ -147,7 +147,6 @@ function Marker(mapMarkerData){
             _this.windowContent();
         };
         _this.windowContent = function () {
-
             $.getJSON(API_ENDPOINT
                 .replace('CLIENT_ID', CLIENT_ID)
                 .replace('CLIENT_SECRET', CLIENT_SECRET)
